@@ -1,37 +1,27 @@
-// This program spawns multiple threads that each runs for at least 250ms, and
-// each thread returns how much time it took to complete. The program should
-// wait until all the spawned threads have finished and should collect their
-// return values into a vector.
+// threads1.rs
+// Execute `rustlings hint threads1` or use the `hint` watch subcommand for a hint.
+// This program should wait until all the spawned threads have finished before exiting.
 
-use std::{
-    thread,
-    time::{Duration, Instant},
-};
+use std::thread;
+use std::time::Duration;
 
 fn main() {
-    let mut handles = Vec::new();
+    let mut handles = vec![];
     for i in 0..10 {
-        let handle = thread::spawn(move || {
-            let start = Instant::now();
+        handles.push(thread::spawn(move || {
             thread::sleep(Duration::from_millis(250));
-            println!("Thread {i} done");
-            start.elapsed().as_millis()
-        });
-        handles.push(handle);
+            println!("thread {} is complete", i);
+        }));
     }
 
-    let mut results = Vec::new();
+    let mut completed_threads = 0;
     for handle in handles {
-        // TODO: Collect the results of all threads into the `results` vector.
-        // Use the `JoinHandle` struct which is returned by `thread::spawn`.
+        // TODO: a struct is returned from thread::spawn, can you use it?
+        handle.join().unwrap();
+        completed_threads += 1;
     }
 
-    if results.len() != 10 {
-        panic!("Oh no! Some thread isn't done yet!");
-    }
-
-    println!();
-    for (i, result) in results.into_iter().enumerate() {
-        println!("Thread {i} took {result}ms");
+    if completed_threads != 10 {
+        panic!("Oh no! All the spawned threads did not finish!");
     }
 }

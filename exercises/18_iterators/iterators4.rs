@@ -1,16 +1,8 @@
-fn factorial(num: u64) -> u64 {
-    // TODO: Complete this function to return the factorial of `num` which is
-    // defined as `1 * 2 * 3 * … * num`.
-    // https://en.wikipedia.org/wiki/Factorial
-    //
-    // Do not use:
-    // - early returns (using the `return` keyword explicitly)
-    // Try not to use:
-    // - imperative style loops (for/while)
-    // - additional variables
-    // For an extra challenge, don't use:
-    // - recursion
+
+pub fn factorial(num: u64) -> u64 {
+    (1..=num).product()// 表示1到num中所有的数字的乘积
 }
+
 
 fn main() {
     // You can optionally experiment here.
